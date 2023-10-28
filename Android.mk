@@ -1,4 +1,5 @@
 ifeq ($(strip $(BOARD_SUPPORTS_OPENSOURCE_STHAL)),true)
+ifneq ($(TARGET_USES_QCOM_AUDIO_AR),true)
 
 LOCAL_PATH := $(call my-dir)
 
@@ -16,6 +17,10 @@ ifeq ($(strip $(AUDIO_FEATURE_ENABLED_DAEMON_SUPPORT)), true)
 endif
 
 LOCAL_CFLAGS += -Wall -Werror
+
+ifeq ($(ENABLE_AUDIO_LEGACY_TECHPACK), true)
+  LOCAL_CFLAGS += -DENABLE_SVA_MIXER_CTL
+endif
 
 LOCAL_SRC_FILES := \
     sound_trigger_hw.c \
@@ -132,4 +137,5 @@ include $(BUILD_SHARED_LIBRARY)
 #
 #include $(BUILD_EXECUTABLE)
 
+endif
 endif
